@@ -1,7 +1,13 @@
 #!/bin/bash
-
+component = $1              #receiving component from bootstrap.sh 
 echo "Installing Ansible..."
 dnf install ansible -y
 
 echo "Ansible installation complete"
 ansible --version
+
+cd /home/ec2-user
+git clone https://github.com/mayuri-mb/ansible-roboshop-roles-tf.git
+
+cd ansible-roboshop-roles.tf
+ansible playbook -e component=$component roboshop.yaml

@@ -25,8 +25,8 @@ resource "terraform_data" "bootstrap" {
     }
 
     provisioner "file" {
-        source = "bootstrap.sh"
-        destination = "/tmp/bootstrap.sh"
+        source = "bootstrap.sh"  #Local file path
+        destination = "/tmp/bootstrap.sh"  #Destination path on the remote machine
     }
 
     provisioner "remote-exec" {

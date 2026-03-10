@@ -1,5 +1,5 @@
 #!/bin/bash
-component = $1              #receiving component from bootstrap.sh 
+component=$1              #receiving component from bootstrap.sh 
 echo "Installing Ansible..."
 dnf install ansible -y
 

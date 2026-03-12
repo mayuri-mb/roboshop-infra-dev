@@ -1,3 +1,4 @@
+#Create IAM role
 resource "aws_iam_role" "mysql" {
     name = local.mysql_role_name #Roboshop-Dev-Mysql
 
@@ -21,4 +22,22 @@ resource "aws_iam_role" "mysql" {
     },    
     local.common_tags
   )    
+}
+
+#Create the policy
+resource "aws_iam_policy" "mysql" {
+    name = local.mysql_policy_name
+    policy = file("mysql_iam_policy.json")
+}
+
+#Attach policy to the role
+resource "aws_iam_role_policy_attachement" "mysql" {
+    role = aws_iam_role.mysql.name
+    policy_arn = aws_iam_policy.mysql.arn
+}
+
+#create instance profile
+resource "aws_iam_instance_profile" "mysql" {
+    name = "${var.project}-${var.environment}-mysql"
+    role = aws_iam_role_mysql.name
 }

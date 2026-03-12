@@ -3,6 +3,7 @@ resource "aws_instance" "mongodb" {
     instance_type = "t3.micro"
     subnet_id = local.database_subnet_id
     vpc_security_group_ids = [local.mongodb_sg_id]
+    iam_instance_profile = aws_iam_instance_profile.mysql.name
 
     tags = merge(
         {
@@ -103,7 +104,7 @@ resource "terraform_data" "bootstrap_mysql" {
         password = "DevOps321"
         host = aws_instance.mysql.private_ip
     }
-    
+
     provisioner "file" {
         source = "bootstrap.sh"  #Local file path
         destination = "/tmp/bootstrap.sh"  #Destination path on the remote machine

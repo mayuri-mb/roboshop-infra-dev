@@ -103,7 +103,7 @@ resource "terraform_data" "bootstrap_mysql" {
         password = "DevOps321"
         host = aws_instance.mysql.private_ip
     }
-
+    
     provisioner "file" {
         source = "bootstrap.sh"  #Local file path
         destination = "/tmp/bootstrap.sh"  #Destination path on the remote machine

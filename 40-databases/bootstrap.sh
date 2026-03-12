@@ -9,6 +9,7 @@ ansible --version
 
 cd /home/ec2-user
 git clone https://github.com/mayuri-mb/ansible-roboshop-roles-tf.git
+git pull
 
 cd ansible-roboshop-roles-tf
 ansible-playbook -e component=$component roboshop.yaml

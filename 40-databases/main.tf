@@ -94,7 +94,7 @@ resource "aws_instance" "mysql" {
 
 resource "terraform_data" "bootstrap_mysql" {
     triggers_replace = [
-        aws_instance.redis.id
+        aws_instance.mysql.id
     ]
 
     connection {

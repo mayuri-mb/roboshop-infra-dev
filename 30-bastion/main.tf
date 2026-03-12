@@ -1,3 +1,4 @@
+#creating instance
 resource "aws_instance" "bastion" { 
     ami = local.ami_id
     instance_type =  "t3.micro"
@@ -27,6 +28,7 @@ resource "aws_instance" "bastion" {
    
 }
 
+#creating IAM role
 resource "aws_iam_role" "bastion" {
   name = "roboshopdevbastion"
 
@@ -54,12 +56,14 @@ resource "aws_iam_role" "bastion" {
     )
 }
 
+#Attaching policy to IAM role
 resource "aws_iam_role_policy_attachment" "bastion" {
     role = aws_iam_role.bastion.name
     #policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
     policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
 }
 
+#creating instance profile
 resource "aws_iam_instance_profile" "bastion" {
     name = "${var.project}-${var.environment}-bastion"
     role = aws_iam_role.bastion.name

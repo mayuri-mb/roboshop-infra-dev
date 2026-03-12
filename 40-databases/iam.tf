@@ -27,7 +27,10 @@ resource "aws_iam_role" "mysql" {
 #Create the policy
 resource "aws_iam_policy" "mysql" {
     name = local.mysql_policy_name
-    policy = file("mysql_iam_policy.json")
+    policy = templatefile("mysql_iam_policy.json",{
+        environment = var.environment
+    }
+    )
 }
 
 #Attach policy to the role

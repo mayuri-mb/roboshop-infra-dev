@@ -9,9 +9,7 @@ echo "Ansible installation complete"
 ansible --version
 
 cd /home/ec2-user
-if [ ! -d "ansible-roboshop-roles-tf" ]; then
-    git clone https://github.com/mayuri-mb/ansible-roboshop-roles-tf.git
-fi
+git clone https://github.com/mayuri-mb/ansible-roboshop-roles-tf.git
 git pull
 
 cd ansible-roboshop-roles-tf

@@ -1,6 +1,7 @@
 #!/bin/bash
 
 component=$1              #receiving component from bootstrap.sh 
+environment=$2
 echo "Installing Ansible..."
 dnf install ansible -y
 
@@ -12,4 +13,4 @@ git clone https://github.com/mayuri-mb/ansible-roboshop-roles-tf.git
 git pull
 
 cd ansible-roboshop-roles-tf
-ansible-playbook -e component=$component roboshop.yaml
+ansible-playbook -e component=$component -e environment=$environment roboshop.yaml

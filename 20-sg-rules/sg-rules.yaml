@@ -17,3 +17,21 @@ mongodb :
   port : 27017
   src  : user
   dest : mongodb  
+
+redis:
+- name : redis_bastion
+  port : 22
+  src  : bastion
+  dest : redis
+
+mysql:
+- name : mysql_bastion
+  port : 22
+  src  : bastion
+  dest : mysql
+   
+rabbitmq :
+- name : rabbitmq_bastion
+  port : 22
+  src  : bastion
+  dest : rabbitmq   

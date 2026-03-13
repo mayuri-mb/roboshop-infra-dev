@@ -11,9 +11,6 @@ ansible --version
 
 cd /home/ec2-user
 
-# Remove old folder if exists
-rm -rf ansible-roboshop-roles-tf
-
 git clone https://github.com/mayuri-mb/ansible-roboshop-roles-tf.git
 git pull
 

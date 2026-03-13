@@ -2,6 +2,7 @@
 
 component=$1              #receiving component from bootstrap.sh 
 environment=$2
+echo "component=$1, environment=$2"
 echo "Installing Ansible..."
 dnf install ansible -y
 

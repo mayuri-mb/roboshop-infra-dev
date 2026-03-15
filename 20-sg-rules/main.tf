@@ -70,5 +70,5 @@ resource "aws_security_group_rule" "backend_alb_bastion" {
     to_port = 80
     protoceol = "tcp"
     source_security_group_id = local.bastion_sg_id
-    security_group_id = local.backend_sg_id
+    security_group_id = local.backend_alb_sg_id
 }

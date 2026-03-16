@@ -45,7 +45,7 @@ resource "aws_ec2_instance_state" "catalogue" {
   depends_on = [terraform_data.bootstrap_catalogue]
 }
 
-#create ami
+#creates ami
 resource "aws_ami_from_instance" "catalogue" {
     name = "${var.project}-${var.environment}-catalogue"
     source_instance_id = aws_instance.catalogue.id
@@ -59,6 +59,7 @@ resource "aws_ami_from_instance" "catalogue" {
     )
 }
 
+#creates LB target group
 resource "aws_lb_target_group" "catalogue" {
     name = "${var.project}-${var.environment}-catalogue"
     port = 8080
@@ -76,3 +77,48 @@ resource "aws_lb_target_group" "catalogue" {
         unhealthy_threshold = 3
     }
 }
+
+#creates launch template
+resource "aws_launch_template" "catalogue" {
+  name = "${var.project}-${var.environment}-catalogue"
+  image_id = "aws_ami_from_instance.catalogue.id"
+
+  #once autoscaling sees less traffic, it will terminate the instance  
+  instance_initiated_shutdown_behavior = "terminate"
+  instance_type = "t3.micro"
+  vpc_security_group_ids = local.catalogue_sg_id
+
+  update_default_version = true
+  
+  #tags for instance created by launch template through auto scaling  
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = merge(
+        {
+            Name = "${var.project}-${var.environment}-catalogue"
+        },
+        local.common_tags
+    )
+  }
+  #tags for volume created by instances
+  tag_specifications {
+    resource_type = "volume"
+
+    tags = merge(
+        {
+            Name = "${var.project}-${var.environment}-catalogue"
+        },
+        local.common_tags
+    )
+  }
+  #tags for launch template
+    tags = merge(
+        {
+            Name = "${var.project}-${var.environment}-catalogue"
+        },
+        local.common_tags
+    )
+}
+
+  

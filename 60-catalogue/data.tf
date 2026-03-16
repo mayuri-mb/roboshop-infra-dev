@@ -19,7 +19,7 @@ data "aws_ami" "joindevops" {
 
 }
 
-data "aws_ssm_parameter" "privare_subnet_ids" {
+data "aws_ssm_parameter" "private_subnet_ids" {
     name = "/${var.project}/${var.environment}/private_subnet_id"
 }   
 

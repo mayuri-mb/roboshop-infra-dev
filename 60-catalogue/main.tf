@@ -86,10 +86,10 @@ resource "aws_launch_template" "catalogue" {
   #once autoscaling sees less traffic, it will terminate the instance  
   instance_initiated_shutdown_behavior = "terminate"
   instance_type = "t3.micro"
-  vpc_security_group_ids = local.catalogue_sg_id
+  vpc_security_group_ids = [local.catalogue_sg_id]
 
   update_default_version = true
-  
+
   #tags for instance created by launch template through auto scaling  
   tag_specifications {
     resource_type = "instance"

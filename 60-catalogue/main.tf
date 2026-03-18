@@ -142,7 +142,7 @@ resource "aws_autoscaling_group" "catalogue" {
 
     instance_refresh {
         stratergy = "Rolling"
-        preference {
+        preferences {
             min_healthy_percentage = 50
         }
         triggers = ["launch_template"]

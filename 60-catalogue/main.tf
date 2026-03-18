@@ -141,7 +141,7 @@ resource "aws_autoscaling_group" "catalogue" {
     target_group_arns = [aws_lb_target_group.catalogue.arn]
 
     instance_refresh {
-        stratergy = "Rolling"
+        strategy = "Rolling"
         preferences {
             min_healthy_percentage = 50
         }
@@ -151,7 +151,7 @@ resource "aws_autoscaling_group" "catalogue" {
     dynamic "tag" {
      for_each = merge(
         {
-            Name = "${var.project}-${var.environmant}-catalogue"
+            Name = "${var.project}-${var.environment}-catalogue"
         },
         local.common_tags
      )
@@ -193,7 +193,7 @@ resource "aws_lb_listener_rule" "catalogue" {
         target_group_arn = aws_lb_target_group.catalogue.arn
     }
     condition {
-        host_headers {
+        host_header {
             values = ["catalogue.backend-alb-${var.environment}.${var.domain_name}"]
         }
     }

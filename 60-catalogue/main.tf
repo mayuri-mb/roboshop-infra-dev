@@ -121,4 +121,92 @@ resource "aws_launch_template" "catalogue" {
     )
 }
 
-  
+#autoscaling
+resource "aws_autoscaling_group" "catalogue" {
+    name = "${var.project}-${var.environment}-catalogue"
+    max_size = 10
+    min_size = 1
+    health_check_grace_period = 120
+    health_check_type = "ELB"
+    desired_capacity = 1
+    force_delete = false
+
+    launch_template {
+        id = aws_launch_template.catalogue.id
+        version = "$Latest"
+    }
+
+    vpc_zone_identifier = [local.private_subnet_id]   
+    target_group_arns = [aws_lb_target_group.catalogue.arn]
+
+    instance_refresh {
+        stratergy = "Rolling"
+        preference {
+            min_healthy_percentage = 50
+        }
+        triggers = ["launch_template"]
+    }
+
+    dynamic "tag" {
+     for_each = merge(
+        {
+            Name = "${var.project}-${var.environmant}-catalogue"
+        },
+        local.common_tags
+     )
+     content {  
+        key = each.tag
+        value = each.value
+        propagate_at_launch = true
+     }   
+    }   
+
+    #within 15mins autoscaling should be succesful
+    timeouts {
+        delete = "15m"
+    }
+}
+
+#autoscaling policy
+resource "aws_autoscaling_policy" "catalogue" {
+  name = "${var.project}-${var.environment}-catalogue"
+  autoscaling_group_name = aws_autoscaling_group.catalogue.name
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+    predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 70.0
+  }
+
+}  
+
+#lb listener rule
+resource "aws_lb_listener" "catalogue" {
+    listener_arn = local.backend_alb_listener_arn
+    priority = 10
+
+    action {
+        type = "forward"
+        target_group_arn = aws_lb_target_group.catalogue.arn
+    }
+    condition {
+        host_headers {
+            values = ["catalogue.backend-alb-${var.environment}.${var.domain_name}"]
+        }
+    }
+}
+
+#delete the instance
+#this depends on target group
+resource "terraform_data" "catalogue_delete" {
+    triggers_replace = [
+        aws_instance.catalogue.id
+    ]
+
+    depends_on = [aws_autoscaling_policy.catalogue]  
+    
+    provisioner "local-exec" {
+        command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
+    }
+}

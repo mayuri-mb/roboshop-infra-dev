@@ -13,6 +13,7 @@ resource "aws_instance" "catalogue" {
     )
 }
 
+#configure catalogue
 resource "terraform_data" "bootstrap_catalogue" {
     triggers_replace = [
         aws_instance.catalogue.id
@@ -182,7 +183,8 @@ resource "aws_autoscaling_policy" "catalogue" {
 }  
 
 #lb listener rule
-resource "aws_lb_listener" "catalogue" {
+#this depends on target group
+resource "aws_lb_listener_rule" "catalogue" {
     listener_arn = local.backend_alb_listener_arn
     priority = 10
 
@@ -198,7 +200,6 @@ resource "aws_lb_listener" "catalogue" {
 }
 
 #delete the instance
-#this depends on target group
 resource "terraform_data" "catalogue_delete" {
     triggers_replace = [
         aws_instance.catalogue.id
@@ -206,6 +207,7 @@ resource "terraform_data" "catalogue_delete" {
 
     depends_on = [aws_autoscaling_policy.catalogue]  
     
+    #it executes in bastion
     provisioner "local-exec" {
         command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
     }

@@ -34,7 +34,7 @@ resource "terraform_data" "bootstrap_catalogue" {
     provisioner "remote-exec" {
         inline = [
             "chmod +x /tmp/bootstrap.sh",
-            "sudo sh /tmp/bootstrap.sh catalogue dev "
+            "sudo sh /tmp/bootstrap.sh catalogue ${var.environment} ${var.app_version} "
         ]
     }
 }
@@ -129,7 +129,7 @@ resource "aws_autoscaling_group" "catalogue" {
     min_size = 1
     health_check_grace_period = 120
     health_check_type = "ELB"
-    desired_capacity = 1
+    desired_capacity = 2
     force_delete = false
 
     launch_template {

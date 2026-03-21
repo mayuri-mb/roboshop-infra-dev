@@ -47,6 +47,6 @@ resource "aws_route53_record" "frontend_alb" {
         zone_id = aws_lb.frontend_alb.zone_id
         evaluate_target_health = true
     }
-    allow-overwrite = true
+    allow_overwrite = true
 }
 

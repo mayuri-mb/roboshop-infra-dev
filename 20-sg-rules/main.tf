@@ -49,11 +49,11 @@ resource "aws_security_group_rule" "redis_bastion" {
     security_group_id = local.redis_sg_id
 }
 
-resource "aws_security_group_id" "redis_user" {
+resource "aws_security_group_rule" "redis_user" {
     type = "ingress"
     from_port = 6379
     to_port = 6379
-    protocal = "tcp"
+    protocol = "tcp"
     source_security_group_id = local.user_sg_id
     security_group_id = local.redis_sg_id
 }
@@ -81,7 +81,7 @@ resource "aws_security_group_rule" "mysql_shipping" {
     type = "ingress"
     from_port = 3306
     to_port = 3306
-    protocal = "tcp"
+    protocol = "tcp"
     source_security_group_id = local.shipping_sg_id
     security_group_id = local.mysql_sg_id
 }

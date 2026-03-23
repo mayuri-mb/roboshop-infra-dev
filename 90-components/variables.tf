@@ -18,7 +18,7 @@ variable "components" {
         # # }
         # #this is attaching to frontend alb, there is only one component there
           frontend = {
-              rule_priority = 10 */
+              rule_priority = 10 
           }
     }
 }

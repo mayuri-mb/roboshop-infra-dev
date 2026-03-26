@@ -1,8 +1,8 @@
 resource "aws_cloudfront_distribution" "roboshop" {
  origin {
     # https://frontend-dev.daws88s.online
-    domain_name = "frontent-${var.environment}.${var.domain_name}"
-    origin_id = "frontent-${var.environment}.${var.domain_name}"
+    domain_name = "frontend-${var.environment}.${var.domain_name}"
+    origin_id = "frontend-${var.environment}.${var.domain_name}"
 
     custom_origin_config {
         http_port = 80  // Required to be set but not used
@@ -21,7 +21,7 @@ resource "aws_cloudfront_distribution" "roboshop" {
         allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
         cached_methods   = ["GET", "HEAD"]
         target_origin_id = "frontend-${var.environment}.${var.domain_name}"
-        
+
         viewer_protocol_policy = "https-only"
         cache_policy_id = local.cachingDisabled
     }

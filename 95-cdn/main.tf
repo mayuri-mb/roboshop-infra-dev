@@ -1,8 +1,8 @@
 resource "aws_cloudfront_distribution" "roboshop" {
  origin {
     # https://frontend-dev.daws88s.online
-    domain_name = "frontent-${var.environment}.${var.domain}"
-    origin_id = "frontent-${var.environment}.${var.domain}"
+    domain_name = "frontent-${var.environment}.${var.domain_name}"
+    origin_id = "frontent-${var.environment}.${var.domain_name}"
 
     custom_origin_config {
         http_port = 80  // Required to be set but not used

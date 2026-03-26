@@ -1,4 +1,4 @@
-resource "aws_cloudfront_distribution" "cdn" {
+resource "aws_cloudfront_distribution" "roboshop" {
  origin {
     # https://frontend-dev.daws88s.online
     domain_name = "frontent-${var.environment}.${var.domain}"

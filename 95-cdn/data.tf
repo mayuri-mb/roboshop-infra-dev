@@ -1,8 +1,8 @@
-resource "aws_cloudfront_cache_policy" "cachingDisabled" {
+data "aws_cloudfront_cache_policy" "cachingDisabled" {
     name = "Managed-CachingDisabled"
 }
 
-resource "aws_cloudfront_cache_policy" "cachingOptimized" {
+data "aws_cloudfront_cache_policy" "cachingOptimized" {
     name = "Managed-CachingOptimized"
 }
 

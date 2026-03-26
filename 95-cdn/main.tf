@@ -18,6 +18,10 @@ resource "aws_cloudfront_distribution" "roboshop" {
     aliases = ["${var.project}-${var.environment}.${var.domain_name}"]
     
     default_cache_behavior {
+        allowed_methods  = ["DELETE", "GET", "HEAD", "OPTIONS", "PATCH", "POST", "PUT"]
+        cached_methods   = ["GET", "HEAD"]
+        target_origin_id = "frontend-${var.environment}.${var.domain_name}"
+        
         viewer_protocol_policy = "https-only"
         cache_policy_id = local.cachingDisabled
     }

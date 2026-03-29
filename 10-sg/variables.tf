@@ -20,6 +20,8 @@ variable "sg_names" {
         #frontend load balancer
         "frontend_alb",
         #bastion host
-        "bastion"        
+        "bastion"   
+        #openvpn
+        "openvpn"     
         ]
 }
